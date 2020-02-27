@@ -27,14 +27,14 @@ public with sharing class OpportunitiesTriggerHandler {
                 WHERE Name = 'For everyone'
         ];
         List<OpportunityLineItem> lineItems = new List<OpportunityLineItem>();
-        for (Id id : oppIds) {
+        for (Id id : oppIds) {System.debug(id);
             lineItems.add(new OpportunityLineItem(
                     PricebookEntryId = pricebook2s.get(0).PricebookEntries.get(0).Id,
                     OpportunityId = id,
                     UnitPrice = pricebook2s.get(0).PricebookEntries.get(0).UnitPrice,
                     Quantity = 1)
             );
-        }
+        }System.debug(lineItems);
         insert lineItems;
     }
 
