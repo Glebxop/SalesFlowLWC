@@ -7,35 +7,18 @@ public with sharing class OpportunitiesTriggerHandler {
     public static void handleOpportunities(List<Opportunity> opportunities) {
         List<Quote> quotes = new List<Quote>();
         List<Id> oppIds = new List<Id>();
+        String oppIdsString = '';
         for (Opportunity opportunity : opportunities) {
             quotes.add(new Quote(
                     OpportunityId = opportunity.Id,
                     Name = opportunity.Name)
             );
+            oppIdsString += opportunity.Id+';';
             oppIds.add(opportunity.Id);
         }
-        handleLineItems(oppIds);
+        OpportunityLineItemEvent__e opportunityLineItemEvent = new OpportunityLineItemEvent__e(OppIds__c = oppIdsString);
+        EventBus.publish(opportunityLineItemEvent);
         insert quotes;
-    }
-
-    @Future
-    private static void handleLineItems(List<Id> oppIds) {
-        List<Pricebook2> pricebook2s = [
-                SELECT Id,Name,
-                (SELECT Id, UnitPrice, Product2.Name FROM PricebookEntries)
-                FROM Pricebook2
-                WHERE Name = 'For everyone'
-        ];
-        List<OpportunityLineItem> lineItems = new List<OpportunityLineItem>();
-        for (Id id : oppIds) {System.debug(id);
-            lineItems.add(new OpportunityLineItem(
-                    PricebookEntryId = pricebook2s.get(0).PricebookEntries.get(0).Id,
-                    OpportunityId = id,
-                    UnitPrice = pricebook2s.get(0).PricebookEntries.get(0).UnitPrice,
-                    Quantity = 1)
-            );
-        }System.debug(lineItems);
-        insert lineItems;
     }
 
 }
