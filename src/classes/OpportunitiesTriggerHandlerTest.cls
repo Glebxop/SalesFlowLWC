@@ -55,6 +55,7 @@ public with sharing class OpportunitiesTriggerHandlerTest {
                 LIMIT 1
         ];
         System.assertEquals(opportunity.Id, opportunityLineItem.OpportunityId);
+        System.assert([SELECT Id FROM Quote].size()>0);
     }
 
 }

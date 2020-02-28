@@ -5,7 +5,6 @@
 trigger OpportunityLineItemEventTrigger on OpportunityLineItemEvent__e (after insert) {
     if (Trigger.isInsert){
         if (Trigger.isAfter){
-            System.debug('Trigger new: '+Trigger.new);
             OpportunityLineItemEventTriggerHandler.handleEvent(Trigger.new);
         }
     }
