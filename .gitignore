@@ -1,0 +1,4 @@
+*.xml
+lwc/leadGenComponent/*
+!lwc/leadGenComponent/*.xml
+
